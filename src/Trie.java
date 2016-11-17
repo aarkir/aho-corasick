@@ -29,6 +29,10 @@ public class Trie {
     // verify();
   }
 
+  public void reset() {
+  	state = root;
+  }
+
   public void addPattern(String pattern) {
   	enter(pattern);
   	constructFailures();

@@ -1,5 +1,6 @@
 public class Match {
   private String text;
+  // row, column, character of final character
   private int row;
   private int column;
   private int character;
@@ -14,5 +15,9 @@ public class Match {
   @Override
   public String toString() {
   	return ""+row+":"+column+" "+text;
+  }
+
+  public int getCharacter() {
+  	return character;
   }
 }

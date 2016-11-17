@@ -28,14 +28,14 @@ public class Test {
   	      if (file.exists()) {
   	     	files.add(file);
   	      }
-  	      System.out.println(files);
   	    }
+  	    System.out.println(files);
   	    break;
   	   case "unload":
   	   	for (int i = 1; i < args.length; ++i) {
      	  files.remove(new File(args[i]));
-  	   	  System.out.println(files);
   	   	}
+  	   	System.out.println(files);
   	   	break;
   	   case "query":
   	    query(files, args);
@@ -51,8 +51,8 @@ public class Test {
   // reusable print for giving directions
   private static void help() {
 	System.out.print(String.join("\n",
-	"load [file]",
-	"unload [file]",
+	"load [file1] [file2] ...",
+	"unload [file1] [file2] ...",
 	"query [keyword1] [keyword2] ...",
 	"help",
 	"exit\n"));
@@ -64,6 +64,8 @@ public class Test {
     Reader reader;
     // used to keep track of index of results being added
     for (File file : files) {
+      // set trie back to initial state
+      trie.reset();
       try {
         reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
         ArrayList<Match> matches = new ArrayList<>();
@@ -78,7 +80,7 @@ public class Test {
       	  ArrayList<String> outputs = trie.search(c);
       	  for (String output : outputs) {
       	    if (!outputs.isEmpty()) {
-      	  	  matches.add(new Match(output, row, column, character));
+      	  	  matches.add(new Match(output, row, column-output.length()+1, character-output.length()));
       	    }
       	  }
       	  ++character;
@@ -92,7 +94,7 @@ public class Test {
       	  	++column;
       	  }
         }
-        results.add(new Result(matches));
+        results.add(new Result(file.getPath(), matches));
       } catch (IOException e) {};
       // moving on to next file
     }
@@ -101,7 +103,7 @@ public class Test {
 	for (Result result : results) {
 	  System.out.println(result);
 	}
-	System.out.println(results.get(0));
+	results.get(results.size()-1).printMatches();
   }
 
   // makes entering commands look nice
