@@ -26,11 +26,13 @@ public class Trie {
     }
     constructFailures();
     makeDeterministic();
-    verify();
+    // verify();
   }
 
   public void addPattern(String pattern) {
   	enter(pattern);
+  	constructFailures();
+  	makeDeterministic();
   }
 
   // enter patterns.
@@ -110,7 +112,8 @@ public class Trie {
   	}
   }
 
-  public ArrayList<String> search(Character a) {
+  // NFA using Goto and Failure functions
+  public ArrayList<String> searchGF(Character a) {
   	while (state.g(a) == null) {
   	  state = state.f();
   	}
@@ -118,7 +121,8 @@ public class Trie {
   	return state.getOutputStrings();
   }
 
-  public ArrayList<String> search2(Character a) {
+  // DFA using Move
+  public ArrayList<String> search(Character a) {
   	state = state.move(a);
   	return state.getOutputStrings();
   }
