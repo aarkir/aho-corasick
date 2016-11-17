@@ -6,7 +6,7 @@ public class Test {
     Trie trie = new Trie(patterns);
     
     for (int i = 0; i < test.length(); ++i) {
-      System.out.println(test.charAt(i) + " " + trie.search(test.charAt(i)));
+      System.out.println(test.charAt(i) + " " + trie.search2(test.charAt(i)));
     }
   }
 }
